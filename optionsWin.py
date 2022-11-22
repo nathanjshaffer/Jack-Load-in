@@ -5,10 +5,10 @@ class opWin:
         self.sg = sg
     def show(self):
         layout = [  [   self.sg.Text("Jack Mixer Files Directory"),
-                                    self.sg.Input(self.app.appSettings.settings["mixerConfPath"], key="mixerConfPath", readonly=True),
+                                    self.sg.Input(default_text=self.app.appSettings.settings["mixerConfPath"], key="mixerConfPath"),
                                     self.sg.Button("...", key="mixConfigPathBtn")],
                     [   self.sg.Text("aj-snapshot Files Directory"),
-                                    self.sg.Input(self.app.appSettings.settings["snapshotPath"], key="snapshotPath", readonly=True),
+                                    self.sg.Input(default_text=self.app.appSettings.settings["snapshotPath"], key="snapshotPath"),
                                     self.sg.Button("...", key="snapshotPathBtn")],
 
                     [   self.sg.Text("Jackd Command"),
@@ -33,6 +33,8 @@ class opWin:
                 if self.sg.popup("Save current jack command?", "CMD : " + command, button_type=1) == "Yes":
                     self.window["jackCommand"].update(value=command)
             if event == self.sg.WIN_CLOSED or event == 'Close':
+                self.app.appSettings.settings["jackCommand"] = self.window["mixerConfPath"].get()
+                self.app.appSettings.settings["jackCommand"] = self.window["snapshotPath"].get()
                 self.app.appSettings.settings["jackCommand"] = self.window["jackCommand"].get()
                 self.window.close()
                 break

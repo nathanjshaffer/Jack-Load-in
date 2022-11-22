@@ -22,6 +22,7 @@ class AppSettings:
     def LoadSettings(self):
         if not os.path.isfile("settings.json"):
             self.settings = {"snapshot": "default",
+                    "snapshotPath": os.getcwd(),
                     "snapshotFiles": ['default'],
                     "clear-on-load": False,
                     "jackCommand": "jackd -d alsa -P hw:PCH,0 -C hw:PCH,0 -r 48000 -n 3",
@@ -29,8 +30,8 @@ class AppSettings:
                     "mixer-files":[],
                     "mixerConf":None,
                     "mixerConfPath":os.getcwd()}
-            self.SaveSettings(self.settings)
-            print(settings)
+            self.SaveSettings()
+            print(self.settings)
         else:
             with open('settings.json', 'r') as f:
                 self.settings = json.load(f)
@@ -195,7 +196,7 @@ class App:
         sg.theme('DarkGrey13')
         print(sg.theme_button_color())
 
-        
+
         self.LoadWindow()
         # Event Loop to process "events" and get the "values" of the inputs
         while True:
