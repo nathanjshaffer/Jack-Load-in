@@ -25,16 +25,20 @@ class opWin:
             if event == "mixConfigPathBtn":
                 self.app.appSettings.settings["mixerConfPath"] = self.sg.popup_get_folder("Jack Mixer Files Directory", default_path=self.app.appSettings.settings["mixerConfPath"], no_window=True)
                 self.window["mixerConfPath"].update(value=self.app.appSettings.settings["mixerConfPath"])
+
             if event == "snapshotPathBtn":
-                self.app.appSettings.settings["mixerConfPath"] = self.sg.popup_get_folder("Jack Mixer Files Directory", default_path=self.app.appSettings.settings["mixerConfPath"], no_window=True)
+                self.app.appSettings.settings["snapshotPath"] = self.sg.popup_get_folder("Jack Mixer Files Directory", default_path=self.app.appSettings.settings["snapshotPath"], no_window=True)
                 self.window["snapshotPath"].update(value=self.app.appSettings.settings["snapshotPath"])
+
             if event == "discoverJackCommand":
                 command = self.app.jackd.DiscoverCommand()
                 if self.sg.popup("Save current jack command?", "CMD : " + command, button_type=1) == "Yes":
                     self.window["jackCommand"].update(value=command)
+
             if event == self.sg.WIN_CLOSED or event == 'Close':
                 self.app.appSettings.settings["jackCommand"] = self.window["mixerConfPath"].get()
                 self.app.appSettings.settings["jackCommand"] = self.window["snapshotPath"].get()
                 self.app.appSettings.settings["jackCommand"] = self.window["jackCommand"].get()
+                self.app.appSettings.SaveSettings()
                 self.window.close()
                 break

@@ -231,32 +231,35 @@ class App:
                     self.jackMixer.StopApp()
 
             if event == 'addMixConf':
-                print(os.getcwd())
-                fname = sg.popup_get_file('Select Mixer File',
+                # print(os.getcwd())
+                fnames = sg.popup_get_file('Select Mixer File',
                     title = 'Mixer File',
                     modal = True,
                     initial_folder=self.appSettings.settings["mixerConfPath"],
                     multiple_files = True,
                     no_window = True)
-                if fname != None and fname != '':
-                    fname = os.path.basename(fname)
-                    if fname not in self.appSettings.settings["mixer-files"]:
-                        self.appSettings.settings["mixer-files"].append(fname)
-                        self.appSettings.SaveSettings()
+                print(fnames)
+                if len(fnames) > 0:
+                    for fname in fnames:
+                        fname = os.path.basename(fname)
+                        if fname not in self.appSettings.settings["mixer-files"]:
+                            self.appSettings.settings["mixer-files"].append(fname)
+                    self.appSettings.SaveSettings()
                     self.window.close()
                     self.LoadWindow()
 
             if event == 'Add Snapshot':
-                fname = sg.popup_get_file('Select Snapshot File',
+                fnames = sg.popup_get_file('Select Snapshot File',
                     title = 'Mixer File',
                     modal = True,
                     initial_folder=os.getcwd(),
                     multiple_files = True,
                     no_window = True)
-                if fname != None and fname != '':
-                    if fname not in self.appSettings.settings["mixer-files"]:
-                        self.appSettings.settings["mixer-files"].append(fname)
-                        self.appSettings.SaveSettings()
+                if len(fnames) > 0:
+                    for fname in fnames:
+                        if fname not in self.appSettings.settings["mixer-files"]:
+                            self.appSettings.settings["mixer-files"].append(fname)
+                            self.appSettings.SaveSettings()
                     self.window.close()
                     self.LoadWindow()
 
