@@ -22,14 +22,16 @@ class AppSettings:
     def LoadSettings(self):
         if not os.path.isfile("settings.json"):
             self.settings = {"snapshot": "default",
-                    "snapshotPath": os.getcwd(),
+                    "snapshotPath": "~/.local/share/aj-smapshot",
                     "snapshotFiles": ['default'],
                     "clear-on-load": False,
                     "jackCommand": "jackd -d alsa -P hw:PCH,0 -C hw:PCH,0 -r 48000 -n 3",
                     "a2jCommand": "/usr/bin/a2j_control --ehw --start",
                     "mixer-files":[],
                     "mixerConf":None,
-                    "mixerConfPath":os.getcwd()}
+                    "mixerConfPath":"~/.local.share/jack_mixer",
+                    "jackMixerCommand":"jack_mixer"
+                    }
             self.SaveSettings()
             print(self.settings)
         else:
@@ -250,15 +252,15 @@ class App:
 
             if event == 'Add Snapshot':
                 fnames = sg.popup_get_file('Select Snapshot File',
-                    title = 'Mixer File',
+                    title = 'Snapshot File',
                     modal = True,
-                    initial_folder=os.getcwd(),
+                    initial_folder=self.appSettings.settings["snapshotPath"],
                     multiple_files = True,
                     no_window = True)
                 if len(fnames) > 0:
                     for fname in fnames:
-                        if fname not in self.appSettings.settings["mixer-files"]:
-                            self.appSettings.settings["mixer-files"].append(fname)
+                        if fname not in self.appSettings.settings["snapshotFiles"]:
+                            self.appSettings.settings["snapshotFiles"].append(fname)
                             self.appSettings.SaveSettings()
                     self.window.close()
                     self.LoadWindow()
@@ -269,7 +271,7 @@ class App:
                     modal = True,
                     default_text = self.appSettings.settings["snapshot"])
                 if name != None and name != '':
-                    if name not in appSettings.settings["snapshotFiles"]:
+                    if name not in self.appSettings.settings["snapshotFiles"]:
                         self.appSettings.settings["snapshotFiles"].append(name)
                         self.appSettings.SaveSettings()
                     self.ajs.WriteSnapshot(name)
