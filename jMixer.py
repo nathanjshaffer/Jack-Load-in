@@ -26,7 +26,6 @@ class App:
         if(proc != None):
             try:
                 msg = (subprocess.check_output(["kill",proc[0]]))
-                print(msg)
                 self.app.window['jackMixerStat'].update("msg", text_color='Yellow')
                 while(self.GetAppStat() != None):
                     time.sleep(100/1000)
@@ -37,8 +36,6 @@ class App:
     def GetAppStat(self):
         try:
             app = (subprocess.check_output('pgrep -f "python3.*jack_mixer" -l | grep -v "sh"', shell = True))
-            #print("stat")
-            #app = app.decode("utf-8")
             app = app.split()
         except Exception as e:
             app = None;

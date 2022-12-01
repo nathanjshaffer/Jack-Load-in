@@ -6,7 +6,7 @@ import subprocess
 import re
 import time
 import ajsnapshot
-import jack
+import jackServer
 import a2j
 import jMixer
 import optionsWin
@@ -58,7 +58,7 @@ class App:
 
         self.appSettings = AppSettings()
         self.ajs = ajsnapshot.AjSnapshot(self, sg)
-        self.jackd = jack.Jack(self, sg)
+        self.jackd = jackServer.Jack(self, sg)
         self.a2j = a2j.a2jmidid(self, sg)
         self.jackMixer = jMixer.App(self, sg)
 
